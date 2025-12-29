@@ -29,9 +29,7 @@ The application consists of 11 microservices written in different languages (Go,
 
 ```text
 .
-├── adservice/           # Java-based Ad Service
-├── cartservice/         # C#-based Cart Service
-├── argocd/              # GitOps Application Manifests
-├── online-botique-infra/# Kubernetes Base & Overlay manifests
+├── src/                 # All Microservices (adservice, cartservice, etc.)
+├── GitOps/              # Kubernetes Manifests & ArgoCD Apps
 ├── Jenkinsfile          # CI Pipeline definition
-└── README.md            # You are here!
+└── README.md            # Documentation
