@@ -7,6 +7,13 @@
 
 This repository features a cloud-native microservices application (Google's Online Boutique) optimized for a full **DevOps Lifecycle**. It demonstrates modern infrastructure practices including Containerization, Orchestration, and GitOps-based CD.
 
+## 🚀 Project Overview
+
+Unlike standard deployments, this repository focuses on a production-ready GitOps workflow:
+* **Separation of Concerns:** Clear distinction between Application Source Code (`/src`) and Infrastructure Manifests (`/GitOps`).
+* **Environment Management:** Implemented **Kustomize** to handle environment-specific overrides (Staging/Production) without duplicating code (DRY principle).
+* **Continuous Delivery:** Automated synchronization between this repository and the Kubernetes cluster via **ArgoCD**.
+
 ## 🏗️ Architecture Overview
 
 The application consists of 11 microservices written in different languages (Go, Java, Python, Node.js) communicating via **gRPC**.
