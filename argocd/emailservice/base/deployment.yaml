@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: emailservice
+  name: emailservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: emailservice
+  template:
+    metadata:
+      labels:
+        app: emailservice
+    spec:
+      imagePullSecrets:
+        - name: harbor-secret
+      containers:
+        - image: reg.iranshahrit.com:4443/emailservice/emailservice:e6dacfbb
+          name: emailservice
+          imagePullPolicy: IfNotPresent

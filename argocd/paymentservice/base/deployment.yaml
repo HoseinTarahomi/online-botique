@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: paymentservice
+  name: paymentservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: paymentservice
+  template:
+    metadata:
+      labels:
+        app: paymentservice
+    spec:
+      imagePullSecrets:
+        - name: harbor-secret
+      containers:
+        - image: reg.iranshahrit.com:4443/paymentservice/paymentservice:788fe7fa
+          name: paymentservice
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT # تغییر نام متغیر به PORT
+              value: "50051" # پورت سرور gRPC
+          ports:
+            - containerPort: 50051 # پورت که سرویس gRPC به آن گوش می‌دهد

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: recommendationservice
+  name: recommendationservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: recommendationservice
+  template:
+    metadata:
+      labels:
+        app: recommendationservice
+    spec:
+      imagePullSecrets:
+        - name: harbor-secret
+      containers:
+        - image: reg.iranshahrit.com:4443/recommendationservice/recommendationservice:577c99f7
+          name: recommendationservice
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PRODUCT_CATALOG_SERVICE_ADDR
+              value: "http://product-catalog-service:8080"
+            - name: CURRENCY_SERVICE_ADDR
+              value: "http://currencyservice:7000"
+            - name: CART_SERVICE_ADDR
+              value: "http://cartservice:7070"
+          ports:
+            - containerPort: 8080

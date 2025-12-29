@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: paymentservice
+  namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: paymentservice=reg.iranshahrit.com:4443/paymentservice/paymentservice
+
+    # ۲. استراتژی انتخاب تگ (چون تگ‌های جنکینز رندوم هستند)
+    argocd-image-updater.argoproj.io/paymentservice.update-strategy: latest
+
+    # ۳. متد بازنویسی در گیت
+    argocd-image-updater.argoproj.io/write-back-method: git
+
+    argocd-image-updater.argoproj.io/write-back-repository: https://github.com/HoseinTarahomi/online-botique-infra.git
+    # استفاده از استراتژی الفبایی برای پیدا کردن آخرین تگ تولید شده
+
+    # مشخص کردن شاخه برای Push کردن تغییرات
+    argocd-image-updater.argoproj.io/paymentservice.git-branch: main
+    argocd-image-updater.argoproj.io/paymentservice.force-update: "true"
+    # استفاده از متد پارامتری (ساخت فایل جداگانه) برای جلوگیری از خراب شدن kustomization اصلی
+    argocd-image-updater.argoproj.io/write-back-target: kustomization
+
+
+    # ۱. تعریف ایماژ با آدرس مستقیم ریجیستری و نام مستعار payment
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/HoseinTarahomi/online-botique-infra.git
+    targetRevision: main
+    # مسیر لایه پرواداکشن برای پیمنت‌سرویس
+    path: paymentservice/overlays/prods
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

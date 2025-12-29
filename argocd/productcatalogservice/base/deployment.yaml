@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: productcatalogservice
+  name: productcatalogservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: productcatalogservice
+  template:
+    metadata:
+      labels:
+        app: productcatalogservice
+    spec:
+      imagePullSecrets:
+        - name: harbor-secret
+      containers:
+        - image: reg.iranshahrit.com:4443/productcatalogservice/productcatalogservice:7c27ae62
+          name: productcatalogservice
+          imagePullPolicy: IfNotPresent

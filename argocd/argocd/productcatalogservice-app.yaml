@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: productcatalogservice
+  namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: productcatalogservice=reg.iranshahrit.com:4443/productcatalogservice/productcatalogservice
+
+    # ۲. استراتژی انتخاب تگ (چون تگ‌های جنکینز رندوم هستند)
+    argocd-image-updater.argoproj.io/productcatalogservice.update-strategy: latest
+
+    # ۳. متد بازنویسی در گیت
+    argocd-image-updater.argoproj.io/write-back-method: git
+
+    argocd-image-updater.argoproj.io/write-back-repository: https://github.com/HoseinTarahomi/online-botique-infra.git
+    # استفاده از استراتژی الفبایی برای پیدا کردن آخرین تگ تولید شده
+
+    # مشخص کردن شاخه برای Push کردن تغییرات
+    argocd-image-updater.argoproj.io/productcatalogservice.git-branch: main
+    argocd-image-updater.argoproj.io/productcatalogservice.force-update: "true"
+    # استفاده از متد پارامتری (ساخت فایل جداگانه) برای جلوگیری از خراب شدن kustomization اصلی
+    argocd-image-updater.argoproj.io/write-back-target: kustomization
+
+
+    # ۱. تعریف ایماژ با آدرس مستقیم ریجیستری و نام مستعار product
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/HoseinTarahomi/online-botique-infra.git
+    targetRevision: main
+    # مسیر لایه پرواداکشن برای این سرویس
+    path: productcatalogservice/overlays/prods
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: checkoutservice
+  name: checkoutservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: checkoutservice
+  template:
+    metadata:
+      labels:
+        app: checkoutservice
+    spec:
+      imagePullSecrets:
+        - name: harbor-secret
+      containers:
+        - image: reg.iranshahrit.com:4443/checkoutservice/checkoutservice:52b27cc
+          name: checkoutservice
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SHIPPING_SERVICE_ADDR
+              value: "shipping-service.default.svc.cluster.local:50051"
+            - name: PRODUCT_CATALOG_SERVICE_ADDR
+              value: "product-catalog-service.default.svc.cluster.local:3550"
+            - name: CART_SERVICE_ADDR
+              value: "cart-service.default.svc.cluster.local:7070"
+            - name: CURRENCY_SERVICE_ADDR
+              value: "currency-service.default.svc.cluster.local:7000"
+            - name: EMAIL_SERVICE_ADDR
+              value: "emailservice.default.svc.cluster.local:8080"
+            - name: PAYMENT_SERVICE_ADDR
+              value: "paymentservice.default.svc.cluster.local:50051"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: checkoutservice
+  name: checkoutservice
+spec:
+  ports:
+    - port: 5050
+      protocol: TCP
+      targetPort: 5050
+  selector:
+    app: checkoutservice
+  type: NodePort
+

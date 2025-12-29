@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: currencyservice
+  name: currencyservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: currencyservice
+  template:
+    metadata:
+      labels:
+        app: currencyservice
+    spec:
+      imagePullSecrets:
+      - name: harbor-secret
+      containers:
+      - image: reg.iranshahrit.com:4443/currencyservice/currencyservice:v2.0.0
+        name: currencyservice
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PORT
+          value: "7000"  # پورت را اینجا تنظیم می‌کنیم

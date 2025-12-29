@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: product-catalog-service
+  name: product-catalog-service
+spec:
+  ports:
+  - port: 3550
+    protocol: TCP
+    targetPort: 3550
+  selector:
+    app: productcatalogservice
+  type: NodePort

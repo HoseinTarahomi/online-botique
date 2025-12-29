@@ -1,0 +1,9 @@
+tests/
+**/*Tests.cs
+bin/
+obj/
+.git
+.gitignore
+Dockerfile
+README.md
+

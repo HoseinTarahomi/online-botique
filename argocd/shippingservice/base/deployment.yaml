@@ -1,0 +1,24 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: shippingservice
+  name: shippingservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shippingservice
+  template:
+    metadata:
+      labels:
+        app: shippingservice
+    spec:
+      imagePullSecrets:
+        - name: harbor-secret
+      containers:
+        - image: reg.iranshahrit.com:4443/shippingservice/shippingservice:869c8129
+          name: shippingservice
+          imagePullPolicy: IfNotPresent
+

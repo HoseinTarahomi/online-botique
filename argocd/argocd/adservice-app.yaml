@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: adservice
+  namespace: argocd
+  annotations:
+    # تغییر مهم: استفاده از alias و آدرس کامل بدون کوتیشن اضافه
+    argocd-image-updater.argoproj.io/image-list: adservice=reg.iranshahrit.com:4443/adservice/adservice
+    
+    # استفاده از استراتژی latest برای شناسایی آخرین تغییرات در Harbor
+    argocd-image-updater.argoproj.io/adservice.update-strategy: latest
+    
+    # تنظیمات بازنویسی در گیت
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/write-back-repository: https://github.com/HoseinTarahomi/online-botique-infra.git
+    argocd-image-updater.argoproj.io/adservice.git-branch: main
+    
+    # این خط بسیار حیاتی است تا فایل .argocd-source-adservice.yaml را درست بسازد
+    argocd-image-updater.argoproj.io/adservice.force-update: "true"
+    argocd-image-updater.argoproj.io/write-back-target: kustomization
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/HoseinTarahomi/online-botique-infra.git
+    targetRevision: main
+    path: adservice/overlays/prods
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

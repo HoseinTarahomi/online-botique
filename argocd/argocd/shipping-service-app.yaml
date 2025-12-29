@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: shippingservice
+  namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: shippingservice=reg.iranshahrit.com:4443/shippingservice/shippingservice
+
+    # ۲. استراتژی انتخاب تگ (چون تگ‌های جنکینز رندوم هستند)
+    argocd-image-updater.argoproj.io/shippingservice.update-strategy: latest
+
+    # ۳. متد بازنویسی در گیت
+    argocd-image-updater.argoproj.io/write-back-method: git
+
+    argocd-image-updater.argoproj.io/write-back-repository: https://github.com/HoseinTarahomi/online-botique-infra.git
+    # استفاده از استراتژی الفبایی برای پیدا کردن آخرین تگ تولید شده
+
+    # مشخص کردن شاخه برای Push کردن تغییرات
+    argocd-image-updater.argoproj.io/shippingservice.git-branch: main
+    argocd-image-updater.argoproj.io/shippingservice.force-update: "true"
+    # استفاده از متد پارامتری (ساخت فایل جداگانه) برای جلوگیری از خراب شدن kustomization اصلی
+    argocd-image-updater.argoproj.io/write-back-target: kustomization
+
+
+    # ۱. تعریف ایماژ با آدرس مستقیم و نام مستعار shipping
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/HoseinTarahomi/online-botique-infra.git
+    targetRevision: main
+    # مسیر لایه پرواداکشن برای شیپینگ‌سرویس
+    path: shippingservice/overlays/prods
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

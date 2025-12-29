@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: loadgenerator
+  name: loadgenerator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loadgenerator
+  template:
+    metadata:
+      labels:
+        app: loadgenerator
+    spec:
+      imagePullSecrets:
+        - name: harbor-secret
+      containers:
+        - image: reg.iranshahrit.com:4443/loadgenerator/loadgenerator:a0d9615b
+          name: loadgenerator
+          imagePullPolicy: IfNotPresent

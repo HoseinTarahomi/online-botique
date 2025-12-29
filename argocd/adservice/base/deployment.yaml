@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adservice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: adservice
+  template:
+    metadata:
+      labels:
+        app: adservice
+    spec:
+      imagePullSecrets:
+        - name: harbor-secret
+      containers:
+        - name: adservice
+          image: reg.iranshahrit.com:4443/adservice/adservice
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9555
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+

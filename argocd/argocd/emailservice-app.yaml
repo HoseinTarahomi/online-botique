@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: emailservice
+  namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: emailservice=reg.iranshahrit.com:4443/emailservice/emailservice
+
+    argocd-image-updater.argoproj.io/emailservice.update-strategy: latest
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/write-back-repository: https://github.com/HoseinTarahomi/online-botique-infra.git
+    argocd-image-updater.argoproj.io/emailservice.git-branch: main
+
+    # اجبار به ایجاد تغییر حتی اگر ایمیج در kustomization نباشد
+    argocd-image-updater.argoproj.io/emailservice.force-update: "true"
+    # استفاده از متد پارامتری (ساخت فایل جداگانه) برای جلوگیری از خراب شدن kustomization اصلی
+    argocd-image-updater.argoproj.io/write-back-target: kustomization
+
+
+
+    # ۱. تعریف ایماژ با آدرس مستقیم ریجیستری و نام مستعار email
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/HoseinTarahomi/online-botique-infra.git
+    targetRevision: main
+    # مسیر صحیح در ساختار درختی شما
+    path: emailservice/overlays/prods
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,47 @@
+pipeline {
+  agent any
+
+  environment {
+    REGISTRY = "reg.iranshahrit.com:4443"
+    IMAGE = "loadgenerator/loadgenerator"
+    HARBOR_CREDENTIALS_ID = "harbor-cred-2"
+  }
+
+  stages {
+    stage('Checkout Code') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Build & Push Image') {
+      steps {
+        script {
+          env.TAG = sh(
+            script: "git rev-parse --short HEAD",
+            returnStdout: true
+          ).trim()
+
+          withCredentials([usernamePassword(
+            credentialsId: HARBOR_CREDENTIALS_ID,
+            usernameVariable: 'HARBOR_USERNAME',
+            passwordVariable: 'HARBOR_PASSWORD'
+          )]) {
+            sh """
+              echo \$HARBOR_PASSWORD | docker login $REGISTRY -u \$HARBOR_USERNAME --password-stdin
+              docker build -t $REGISTRY/$IMAGE:$TAG .
+              docker push $REGISTRY/$IMAGE:$TAG
+              docker logout $REGISTRY
+            """
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    success {
+      echo "✅ Image pushed: $REGISTRY/$IMAGE:${env.TAG}"
+    }
+  }
+}

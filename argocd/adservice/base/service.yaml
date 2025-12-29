@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: adservice
+  labels:
+    app: adservice
+spec:
+  selector:
+    app: adservice
+  ports:
+    - protocol: TCP
+      port: 9555
+      targetPort: 9555
+  type: NodePort
+
