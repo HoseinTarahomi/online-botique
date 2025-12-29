@@ -6,29 +6,22 @@ metadata:
   annotations:
     argocd-image-updater.argoproj.io/image-list: recommendationservice=reg.iranshahrit.com:4443/recommendationservice/recommendationservice
 
-    # ۲. استراتژی انتخاب تگ (چون تگ‌های جنکینز رندوم هستند)
     argocd-image-updater.argoproj.io/recommendationservice.update-strategy: latest
 
-    # ۳. متد بازنویسی در گیت
     argocd-image-updater.argoproj.io/write-back-method: git
 
     argocd-image-updater.argoproj.io/write-back-repository: https://github.com/HoseinTarahomi/online-botique-infra.git
-    # استفاده از استراتژی الفبایی برای پیدا کردن آخرین تگ تولید شده
 
-    # مشخص کردن شاخه برای Push کردن تغییرات
     argocd-image-updater.argoproj.io/recommendationservice.git-branch: main
     argocd-image-updater.argoproj.io/recommendationservice.force-update: "true"
-    # استفاده از متد پارامتری (ساخت فایل جداگانه) برای جلوگیری از خراب شدن kustomization اصلی
     argocd-image-updater.argoproj.io/write-back-target: kustomization
 
 
-    # ۱. تعریف ایماژ با آدرس مستقیم و نام مستعار recommendation
 spec:
   project: default
   source:
     repoURL: https://github.com/HoseinTarahomi/online-botique-infra.git
     targetRevision: main
-    # مسیر لایه پرواداکشن در ساختار درختی شما
     path: recommendationservice/overlays/prods
   destination:
     server: https://kubernetes.default.svc

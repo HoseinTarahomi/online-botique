@@ -4,7 +4,6 @@ metadata:
   name: cartservice
   namespace: argocd
   annotations:
-    # اصلاح آدرس ایمیج بر اساس تصویر Harbor: پروژه cartservice و ریپازیتوری cartservice
     argocd-image-updater.argoproj.io/image-list: cartservice=reg.iranshahrit.com:4443/cartservice/cartservice
 
     argocd-image-updater.argoproj.io/cartservice.update-strategy: latest
@@ -12,9 +11,7 @@ metadata:
     argocd-image-updater.argoproj.io/write-back-repository: https://github.com/HoseinTarahomi/online-botique-infra.git
     argocd-image-updater.argoproj.io/cartservice.git-branch: main
 
-    # اجبار به ایجاد تغییر حتی اگر ایمیج در kustomization نباشد
     argocd-image-updater.argoproj.io/cartservice.force-update: "true"
-    # استفاده از متد پارامتری (ساخت فایل جداگانه) برای جلوگیری از خراب شدن kustomization اصلی
     argocd-image-updater.argoproj.io/write-back-target: kustomization
 spec:
   project: default

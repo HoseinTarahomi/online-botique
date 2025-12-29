@@ -6,28 +6,22 @@ metadata:
   annotations:
     argocd-image-updater.argoproj.io/image-list: loadgenerator=reg.iranshahrit.com:4443/loadgenerator/loadgenerator
 
-    # ۲. استراتژی انتخاب تگ (چون تگ‌های جنکینز رندوم هستند)
     argocd-image-updater.argoproj.io/loadgenerator.update-strategy: latest
 
-    # ۳. متد بازنویسی در گیت
     argocd-image-updater.argoproj.io/write-back-method: git
 
     argocd-image-updater.argoproj.io/write-back-repository: https://github.com/HoseinTarahomi/online-botique-infra.git
 
-    # مشخص کردن شاخه برای Push کردن تغییرات
     argocd-image-updater.argoproj.io/loadgenerator.git-branch: main
     argocd-image-updater.argoproj.io/loadgenerator.force-update: "true"
-    # استفاده از متد پارامتری (ساخت فایل جداگانه) برای جلوگیری از خراب شدن kustomization اصلی
     argocd-image-updater.argoproj.io/write-back-target: kustomization
 
 
-    # ۱. تعریف ایماژ با آدرس مستقیم و نام مستعار loadgen
 spec:
   project: default
   source:
     repoURL: https://github.com/HoseinTarahomi/online-botique-infra.git
     targetRevision: main
-    # مسیر لایه پرواداکشن لود-ژنراتور
     path: loadgenerator/overlays/prods
   destination:
     server: https://kubernetes.default.svc

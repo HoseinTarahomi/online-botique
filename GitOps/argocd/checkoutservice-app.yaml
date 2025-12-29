@@ -11,19 +11,16 @@ metadata:
     argocd-image-updater.argoproj.io/write-back-repository: https://github.com/HoseinTarahomi/online-botique-infra.git
     argocd-image-updater.argoproj.io/checkoutservice.git-branch: main
 
-    # اجبار به ایجاد تغییر حتی اگر ایمیج در kustomization نباشد
     argocd-image-updater.argoproj.io/checkoutservice.force-update: "true"
-    # استفاده از متد پارامتری (ساخت فایل جداگانه) برای جلوگیری از خراب شدن kustomization اصلی
     argocd-image-updater.argoproj.io/write-back-target: kustomization
 
 
-    # ۴. اجازه دسترسی به Git (اگر از SSH استفاده می‌کنید) تعریف ایماژ با نام مستعار adservice
 spec:
   project: default
   source:
     repoURL: https://github.com/HoseinTarahomi/online-botique-infra.git
     targetRevision: main
-    path: checkoutservice/overlays/prods  # ابزار فایل kustomization را در این مسیر جستجو می‌کند
+    path: checkoutservice/overlays/prods  
   destination:
     server: https://kubernetes.default.svc
     namespace: default
