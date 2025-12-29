@@ -29,7 +29,7 @@ The application consists of 11 microservices written in different languages (Go,
 
 ```text
 .
-├── src/                 # All Microservices (adservice, cartservice, etc.)
-├── GitOps/              # Kubernetes Manifests & ArgoCD Apps
-├── Jenkinsfile          # CI Pipeline definition
-└── README.md            # Documentation
+├── src/                 # All Microservices source code (Go, Java, Python, etc.)
+├── GitOps/              # Kubernetes Manifests & ArgoCD Application files
+├── Jenkinsfile          # Main CI Pipeline definition
+└── README.md            # Project documentation
