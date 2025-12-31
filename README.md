@@ -35,6 +35,7 @@ Detailed diagrams are available in the `/Architecture` directory.
 
 ## 📂 Project Structure
 
+```text
 .
 ├── src/                 # All Microservices source code (Multi-language)
 ├── GitOps/              # Infrastructure Layer (Kubernetes & ArgoCD manifests)
@@ -43,7 +44,7 @@ Detailed diagrams are available in the `/Architecture` directory.
 ├── Jenkinsfile          # Main CI Pipeline for automated builds
 └── README.md            # Comprehensive documentation
 
-
+```
 ---
 
 ## 🪵 Centralized Logging (PLG Stack)
@@ -76,4 +77,3 @@ To ensure production-grade reliability, I implemented the **PLG Stack** for real
 | **Observability** | Loki, Promtail, Grafana |
 
 ---
-**Developed and Maintained by [Hosein Tarahomi](https://github.com/HoseinTarahomi)**
