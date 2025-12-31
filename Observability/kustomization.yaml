@@ -1,0 +1,6 @@
+# GitOps/observability/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - https://github.com/grafana/helm-charts/charts/loki-stack?ref=main # ارجاع مستقیم به منبع اصلی

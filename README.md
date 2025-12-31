@@ -1,42 +1,58 @@
-# Online Boutique - Microservices Demo with GitOps
+Online Boutique - Microservices Demo with GitOps & Observability
+This repository features a cloud-native microservices application optimized for a full Production-Grade DevOps Lifecycle. It demonstrates modern infrastructure-as-code (IaC) practices, including automated CI/CD and GitOps-based observability.
 
-![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white)
-![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
-![ArgoCD](https://img.shields.io/badge/argocd-%23ef7b4d.svg?style=for-the-badge&logo=argon-dash&logoColor=white)
-![Jenkins](https://img.shields.io/badge/jenkins-%23D33833.svg?style=for-the-badge&logo=jenkins&logoColor=white)
+🚀 Key Highlights
+GitOps Workflow: Fully automated synchronization between GitHub and Kubernetes using ArgoCD.
 
-This repository features a cloud-native microservices application (Google's Online Boutique) optimized for a full **DevOps Lifecycle**. It demonstrates modern infrastructure practices including Containerization, Orchestration, and GitOps-based CD.
+Infrastructure as Code (IaC): Clear distinction between application source code and infrastructure manifests.
 
-## 🚀 Project Overview
+Centralized Logging: Integrated PLG Stack (Promtail, Loki, Grafana) for real-time log aggregation across all 11 microservices.
 
-Unlike standard deployments, this repository focuses on a production-ready GitOps workflow:
-* **Separation of Concerns:** Clear distinction between Application Source Code (`/src`) and Infrastructure Manifests (`/GitOps`).
-* **Environment Management:** Implemented **Kustomize** to handle environment-specific overrides (Staging/Production) without duplicating code (DRY principle).
-* **Continuous Delivery:** Automated synchronization between this repository and the Kubernetes cluster via **ArgoCD**.
+Environment Management: Implemented Kustomize to handle environment-specific overrides (Staging/Production) without duplicating code (DRY principle).
 
-## 🏗️ Architecture Overview
+🏗️ Architecture Overview
+The system consists of 11 polyglot microservices (Go, Java, Python, Node.js) communicating via gRPC. Detailed diagrams are available in the /Architecture directory.
 
-The application consists of 11 microservices written in different languages (Go, Java, Python, Node.js) communicating via **gRPC**.
+Frontend: User interface for browsing products and checking out.
 
-- **Frontend:** Web UI to browse products and checkout.
-- **Cart Service:** Stores items in Redis.
-- **Currency Service:** Converts prices.
-- **Ad Service:** Provides text ads based on context.
-- **Deployment Strategy:** Managed via ArgoCD (GitOps).
+Backend Services: Core logic including cart, currency, and payment processing.
 
-## 🛠️ Tech Stack & Features
+Observability Layer: Real-time logging and monitoring stack.
 
-* **Orchestration:** Kubernetes (K8s) for high availability and scaling.
-* **CI/CD:** * **Jenkins:** Automation of CI pipelines for building and testing.
-    * **ArgoCD:** Declarative continuous delivery using GitOps patterns.
-* **Containerization:** Multi-stage Docker builds for optimized image sizes.
-* **Configuration:** Kustomize for environment-specific manifests.
+📂 Project Structure
 
-## 📂 Project Structure
-
-```text
 .
-├── src/                 # All Microservices source code (Go, Java, Python, etc.)
-├── GitOps/              # Kubernetes Manifests & ArgoCD Application files
-├── Jenkinsfile          # Main CI Pipeline definition
-└── README.md            # Project documentation
+├── src/                 # All Microservices source code (Multi-language)
+├── GitOps/              # Infrastructure Layer (Kubernetes & ArgoCD manifests)
+├── Observability/       # Logging Stack (Grafana, Loki, Promtail, Kustomization)
+├── Architecture/        # System design diagrams and visual assets
+├── Jenkinsfile          # Main CI Pipeline for automated builds
+└── README.md            # Comprehensive documentation
+
+
+🛠️ Tech Stack & Features
+Orchestration: Kubernetes (K8s) for high availability and scaling.
+
+CI/CD: * Jenkins: Automation of CI pipelines for building and testing.
+
+ArgoCD: Declarative continuous delivery using GitOps patterns.
+
+Configuration: Kustomize for managing base and environment-specific manifests.
+
+🪵 Centralized Logging (PLG Stack)
+I implemented the PLG Stack for real-time log aggregation and visualization:
+
+Loki: Optimized log storage (Prometheus-inspired).
+
+Promtail: Local agent that discovers logs from all microservices containers.
+
+Grafana: Dashboards for querying logs using LogQL.
+
+Implementation: Deployed via Kustomize within the /Observability directory for seamless environment propagation.
+
+🔧 CI/CD Workflow
+Commit: Developer pushes code to the src/ directory.
+
+Build (Jenkins): Automated pipelines build Docker images and run tests.
+
+Sync (ArgoCD): Detects changes in the GitOps/ or Observability/ directories and updates the cluster state.
