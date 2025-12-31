@@ -1,6 +1,15 @@
-# GitOps/observability/kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+namespace: observability
+
 resources:
-  - https://github.com/grafana/helm-charts/charts/loki-stack?ref=main # ارجاع مستقیم به منبع اصلی
+  - loki/loki-deployment.yaml
+  - promtail/promtail-daemonset.yaml
+  - grafana/grafana-deployment.yaml
+
+# این بخش تنظیمات Promtail که قبلا نوشتیم را به کلاستر می‌شناساند
+configMapGenerator:
+  - name: promtail-config
+    files:
+      - promtail/config.yaml
