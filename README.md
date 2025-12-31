@@ -35,7 +35,6 @@ Detailed diagrams are available in the `/Architecture` directory.
 
 ## 📂 Project Structure
 
-```text
 .
 ├── src/                 # All Microservices source code (Multi-language)
 ├── GitOps/              # Infrastructure Layer (Kubernetes & ArgoCD manifests)
